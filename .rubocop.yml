@@ -1,0 +1,24 @@
+Style/FrozenStringLiteralComment:
+  Enabled: false
+AllCops:
+  EnabledByDefault: true
+Style/Copyright:
+  Enabled: true
+Layout/IndentationConsistency:
+  AutoCorrect: true
+Style/TopLevelMethodDefinition:
+  Enabled: false
+Style/RedundantInterpolation:
+  Enabled: false
+Lint/ConstantResolution:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/DocumentationMethod:
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: false
+Bundler/GemVersion:
+  Enabled: false
+Bundler/GemComment:
+  Enabled: false

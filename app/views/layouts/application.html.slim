@@ -1,0 +1,18 @@
+html
+  head
+    title 
+      = full_title()
+    meta charset="utf-8"
+      = csrf_meta_tags
+      = csp_meta_tag
+      = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+
+  body
+    = render 'layouts/header'
+    .container
+      - flash.each do |message_type, message|
+        .alert.alert-
+          = message_type
+          = message
+      = yield
+      = render 'layouts/footer'

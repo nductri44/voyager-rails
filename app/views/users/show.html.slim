@@ -1,0 +1,11 @@
+- provide :title, @user.name
+.row
+  .col-md-4 
+    .user_info
+      h3
+        = gravatar_for @user
+        br
+        =  @user.name
+        br
+        = @user.email
+        
