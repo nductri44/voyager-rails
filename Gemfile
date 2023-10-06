@@ -47,6 +47,8 @@ gem 'sassc-rails'
 
 gem 'bootstrap-sass'
 gem 'faker'
+gem 'letter_opener'
+gem 'letter_opener_web'
 gem 'slim-rails'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap-style'
