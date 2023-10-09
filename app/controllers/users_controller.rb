@@ -67,7 +67,8 @@ class UsersController < ApplicationController
 
   # Confirms the correct user.
   def correct_user
-    redirect_to(home_url) if current_user.id != params[:id]
+    @user = User.find(params[:id])
+    redirect_to(home_url) unless @user == current_user
   end
 
   # Confirms an admin user.
