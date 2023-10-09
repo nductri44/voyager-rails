@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :logged_in_user, only: %i[index edit update destroy]
+  before_action :find_user, only: %i[destroy]
   before_action :correct_user, only: %i[edit update]
   before_action :admin_user, only: :destroy
 
@@ -8,7 +9,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    find_user
   end
 
   def new
@@ -18,8 +19,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      flash[:success] = 'Welcome to the Sample App!'
-      redirect_to(@user)
+      UserMailer.account_activation(@user).deliver_now
+      flash[:info] = 'Please check your email to activate your account.'
+      redirect_to(root_url)
     else
       render('new')
     end
@@ -37,7 +39,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    User.find(params[:id]).destroy
+    @user.destroy
     flash[:success] = 'User deleted'
     redirect_to(users_url)
   end
@@ -50,6 +52,11 @@ class UsersController < ApplicationController
 
   # Before filters
 
+  # Finds the user.
+  def find_user
+    @user = User.find(params[:id])
+  end
+
   # Confirms a logged-in user.
   def logged_in_user
     return if logged_in?
@@ -60,8 +67,7 @@ class UsersController < ApplicationController
 
   # Confirms the correct user.
   def correct_user
-    @user = User.find(params[:id])
-    redirect_to(home_url) unless current_user?(@user)
+    redirect_to(home_url) if current_user.id != params[:id]
   end
 
   # Confirms an admin user.
