@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  attr_accessor :remember_token, :activation_token
+  attr_accessor :remember_token, :activation_token, :reset_token
 
   before_save :downcase_email
   before_create :create_activation_digest
@@ -36,9 +36,20 @@ class User < ApplicationRecord
     BCrypt::Password.new(digest).is_password?(token)
   end
 
-  # Forgets a user
+  # Forgets a user.
   def forget
     update_attribute(:remember_digest, nil)
+  end
+
+  # Activates an account.
+  def activate
+    update_attribute(:activated, true)
+    update_attribute(:activated_at, Time.zone.now)
+  end
+
+  # Sends activation email.
+  def send_activation_email
+    UserMailer.account_activation(self).deliver_now
   end
 
   private
