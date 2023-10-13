@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: %i[index edit update destroy]
+  before_action :logged_in_user, only: %i[index edit update destroy show]
   before_action :find_user, only: %i[destroy]
   before_action :correct_user, only: %i[edit update]
   before_action :admin_user, only: :destroy
@@ -61,13 +61,15 @@ class UsersController < ApplicationController
   def logged_in_user
     return if logged_in?
 
+    store_location
     flash[:danger] = 'Please log in.'
     redirect_to(login_url)
   end
 
   # Confirms the correct user.
   def correct_user
-    redirect_to(home_url) if current_user.id != params[:id]
+    @user = User.find(params[:id])
+    redirect_to(home_url) unless @user == current_user
   end
 
   # Confirms an admin user.
